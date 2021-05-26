@@ -1,31 +1,31 @@
 //import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
+import AddTask from './components/AddTask'
 
 const App = () => {
   // Making the state global here so all components can access this.
   // "States get passed down, actions get passed up."
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      description: 'Throw more money at vtubers',
-      day: 'May 17th @ All Day',
-      reminder: true
-    },
-    {
-        id: 2,
-        description: 'Watch more Lamy streams',
-        day: 'May 18th @ All Day',
-        reminder: true
-    },
-    {
-        id: 3,
-        description: 'Sleep some more',
-        day: 'May 17th @ 3 pm',
-        reminder: true
+  const [showAddTask, setShowAddTask] = useState(false)
+  const [tasks, setTasks] = useState([])
+
+  useEffect(() => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks()
+      setTasks(tasksFromServer)
     }
-  ])
+
+    getTasks()
+  }, [])
+
+  // Fetch Tasks
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:5000/tasks')
+    const data = await res.json()
+
+    console.log(data);
+  }
 
   // Toggle Reminder
   const toggleReminder = (id) => {
@@ -37,6 +37,13 @@ const App = () => {
       { ...task, reminder: !task.reminder } : task));
   }
 
+  // Add Task
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000) + 1
+    const newTask = { id, ...task }
+    //console.log(newTask);
+    setTasks([...tasks, newTask])
+  }
 
   // Delete Task
   const deleteTask = (id) => {
@@ -45,7 +52,11 @@ const App = () => {
 
   return (
     <div className="container">
-      <Header title = "Task App"/>
+      <Header onAdd = {() => setShowAddTask(!showAddTask)}
+      showAdd = {showAddTask}
+      title = "Task App"
+      />
+      {showAddTask && <AddTask onAdd = {addTask}/>}
       {/* Ternary used to show if no more tasks are left. */}
       {tasks.length > 0 ? ( <Tasks tasks={tasks} 
       onDelete = {deleteTask}
