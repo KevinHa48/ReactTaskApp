@@ -1,22 +1,16 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "description": "Throw more money at vtubers",
-      "day": "May 17th @ All Day",
-      "reminder": true
+      "description": "get gud at react",
+      "day": "idk",
+      "reminder": true,
+      "id": 1
     },
     {
-      "id": 2,
-      "description": "Watch more Lamy streams",
-      "day": "May 18th @ All Day",
-      "reminder": true
-    },
-    {
-      "id": 3,
-      "description": "Sleep some more",
-      "day": "May 17th @ 3 pm",
-      "reminder": true
+      "description": "close discord",
+      "day": "please",
+      "reminder": true,
+      "id": 2
     }
   ]
 }
